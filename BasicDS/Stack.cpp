@@ -92,7 +92,7 @@ int main(){
             cout << "command : push N / pop / top / exit>>";
             getline(cin, cmd);
 
-            if(cmd.length() >= 4 && !cmd.substr(0, 5).compare("push ")){
+            if(cmd.length() >= 6 && !cmd.substr(0, 5).compare("push ")){
                 intStack->Push(stoi(cmd.substr(5)));
             }
             else if(!cmd.compare("top")){
