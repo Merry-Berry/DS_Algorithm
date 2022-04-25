@@ -60,10 +60,9 @@ void Stack<T>::Pop(){
 
 template <typename T>
 void Stack<T>::Print() const{
+    cout << "Stack : ";
     if(IsEmpty())
-        cout << "Stack is empty" << endl;
-    
-    cout << "current Stack : ";
+        cout << "empty" << endl;
     for(int i = 0; i <= top; i++)
         cout << stack[i] << " ";
     cout << endl;
@@ -89,8 +88,8 @@ int main(){
 
         string cmd;
         do{
-            
-            cout << "command : push N / pop / top / print / exit>>";
+            intStack->Print();
+            cout << "command : push N / pop / top / exit>>";
             getline(cin, cmd);
 
             if(cmd.length() >= 4 && !cmd.substr(0, 5).compare("push ")){
@@ -101,9 +100,6 @@ int main(){
             }
             else if(!cmd.compare("pop")){
                 intStack->Pop();
-            }
-            else if(!cmd.compare("print")){
-                intStack->Print();
             }
             else if(!cmd.compare("exit")){
                 break;
