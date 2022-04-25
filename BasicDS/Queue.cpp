@@ -108,7 +108,7 @@ int main(){
             cout << "push N / pop / front / rear / exit>>";
             getline(cin, cmd);
 
-            if((cmd.length() >= 4) && !cmd.substr(0, 5).compare("push ")){
+            if((cmd.length() >= 6) && !cmd.substr(0, 5).compare("push ")){
                 que->Push(stoi(cmd.substr(5)));
             }
             else if(!cmd.compare("pop")){
