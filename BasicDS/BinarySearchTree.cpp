@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 #include <cstring>
 #include <string>
 using namespace std;
@@ -99,15 +100,18 @@ void BST<K, E>::Delete(const K& k){
         if(!target) cout << "Not found" << endl;
 
         if(!target->getLeft() && !target->getRight()){
-            if(p->getLeft() == target) p->setLeft(NULL);
+            if(target == root) root = NULL;
+            else if(p->getLeft() == target) p->setLeft(NULL);
             else p->setRight(NULL);
         }
         else if(!target->getLeft() && target->getRight()){
-            if(p->getLeft() == target) p->setLeft(target->getRight());
+            if(target == root) root = target->getRight();
+            else if(p->getLeft() == target) p->setLeft(target->getRight());
             else p->setRight(target->getRight());
         }
         else if(target->getLeft() && !target->getRight()){
-            if(p->getLeft() == target) p->setLeft(target->getLeft());
+            if(target == root) root = target->getLeft();
+            else if(p->getLeft() == target) p->setLeft(target->getLeft());
             else p->setRight(target->getLeft());
         }
         else{
@@ -126,7 +130,7 @@ void BST<K, E>::Delete(const K& k){
             if(ap) cout << ap->getKey() << endl;
             else cout << "NULL" << endl;
             
-            if(!p) root = aNode;
+            if(target == root) root = aNode;
             else if(p->getLeft() == target) p->setLeft(aNode);
             else p->setRight(aNode);
 
@@ -143,7 +147,7 @@ void BST<K, E>::Delete(const K& k){
 template <typename K, typename E>
 void BST<K, E>::PreOrder(){
     if(!root) throw "Tree is empty";
-    else PreOrder(root);
+    PreOrder(root);
 }
 
 template <typename K, typename E>
@@ -155,7 +159,21 @@ void BST<K, E>::InOrder(){
 template <typename K, typename E>
 void BST<K, E>::PostOrder(){
     if(!root) throw "Tree is empty";
-    else PostOrder(root);
+    PostOrder(root);
+}
+
+template <typename K, typename E>
+void BST<K, E>::LevelOrder(){
+    if(!root) throw "Tree is empty";
+    queue<TreeNode<K, E>*> qLevel;
+    qLevel.push(root);
+
+    while(!qLevel.empty()){
+        TreeNode<K, E>* node = qLevel.front(); qLevel.pop();
+        cout << "Key: " << node->getKey() << ", Element: " << node->getElement() << endl;
+        if(node->getLeft()) qLevel.push(node->getLeft());
+        if(node->getRight()) qLevel.push(node->getRight());
+    }
 }
 
 template <typename K, typename E>
@@ -191,7 +209,7 @@ int main(){
 
     try{
         do{
-            cout << "print {<pre>|<in>|<post>} / insert <key> <value>/ delete <key> / search <key> / exit>> ";
+            cout << "print {<pre>|<in>|<post>|<level>} / insert <key> <value>/ delete <key> / search <key> / exit>> ";
             getline(cin, cmd);
             if(!cmd.compare("exit")) break;
             else if(!cmd.substr(0, 5).compare("print")){
@@ -201,6 +219,8 @@ int main(){
                     bst.InOrder();
                 else if(!cmd.substr(6).compare("post"))
                     bst.PostOrder();
+                else if(!cmd.substr(6).compare("level"))
+                    bst.LevelOrder();
             }
             else if(!cmd.substr(0, 6).compare("insert")){
                 char cmd_cstr[110];
@@ -221,7 +241,7 @@ int main(){
             }
             else cout << "Unexpected command." << endl;
         }while(1);
-    }catch(char* excp){
+    }catch(const char* excp){
         cout << excp << endl;
         return 0;
     }
