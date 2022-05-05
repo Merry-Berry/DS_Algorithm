@@ -120,7 +120,7 @@ int main(){
             }
         }while(1);
     }
-    catch(char* excp){
+    catch(const char* excp){
         cout << excp << endl;
     }
     
