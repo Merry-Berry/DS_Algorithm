@@ -153,7 +153,7 @@ void BST<K, E>::PreOrder(){
 template <typename K, typename E>
 void BST<K, E>::InOrder(){
     if(!root) throw "Tree is empty";
-    else InOrder(root);
+    InOrder(root);
 }
 
 template <typename K, typename E>
